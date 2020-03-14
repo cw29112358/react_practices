@@ -48,11 +48,11 @@ class App extends Component {
           >
             <Menu.Item key="/home">
               <UserOutlined />
-              <span>home</span>
+              <span>首页</span>
             </Menu.Item>
             <Menu.Item key="/demo">
               <VideoCameraOutlined />
-              <span>demo</span>
+              <span>示例</span>
             </Menu.Item>
           </Menu>
         </Sider>
