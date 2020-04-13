@@ -1,79 +1,102 @@
-const webpack = require("webpack");
-const webpackMerge = require("webpack-merge");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { resolve } = require('path')
+const webpack = require('webpack')
+const WebpackNotifier = require('webpack-notifier')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-const webpackCommonConfig = require("./webpack.common");
-const devServer = require("./devServer.config");
-const { siteTitle } = require("./projectConfig");
+const baseConfig = require('./webpack.common')
+const devServer = require('./devServer.config')
+const { siteTitle } = require('./projectConfig')
 
-const { loader: exLoader } = MiniCssExtractPlugin;
+const root = (path) => resolve(__dirname, `../${path}`)
 
-module.exports = webpackMerge(webpackCommonConfig, {
+module.exports = {
+  entry: baseConfig.entry,
   output: {
-    filename: "assets/js/[name].bundle.js",
-    pathinfo: true
+    filename: '[name].js',
+    path: root('dist/'),
+    publicPath: '/',
+    pathinfo: false,
   },
   module: {
     rules: [
+      ...baseConfig.moduleRules,
       {
-        test: [/\.css$/],
-        use: [
-          {
-            loader: exLoader,
-            options: {
-              hmr: process.env.NODE_ENV === "development"
-            }
-          },
-          {
-            loader: "css-loader",
-            options: {
-              modules: {
-                localIdentName: "[path][name]-[local]-[hash:base64:10]"
-              }
-            }
-          }
-        ],
-        exclude: /node_modules/
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: [/\.less$/],
+        include: root('src'),
         use: [
+          'style-loader',
           {
-            loader: exLoader,
-            options: {
-              hmr: process.env.NODE_ENV === "development"
-            }
-          },
-          {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               modules: {
-                localIdentName: "[path][name]-[local]-[hash:base64:10]"
-              }
-            }
+                localIdentName: '[path][name]__[local]',
+              },
+            },
           },
-          "less-loader"
+          'less-loader',
         ],
-        exclude: /node_modules/
-      }
-    ]
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        include: root('src/assets'),
+        use: ['file-loader'],
+      },
+    ],
   },
+  optimization: {
+    flagIncludedChunks: true,
+    occurrenceOrder: true,
+    usedExports: true,
+    sideEffects: true,
+    concatenateModules: true,
+    splitChunks: {
+      chunks: 'all',
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 5,
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/](?!(ace-builds|react-ace|xterm)).*.jsx?$/,
+          name: 'vendor',
+          priority: 10,
+        },
+        common: {
+          name: 'common',
+          minChunks: 2,
+          minSize: 30000,
+        },
+      },
+    },
+  },
+  resolve: baseConfig.resolve,
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
+    ...baseConfig.plugins,
     new webpack.NamedModulesPlugin(),
-    new MiniCssExtractPlugin({
-      filename: "[name].css",
-      chunkFilename: "[id].css",
-      ignoreOrder: true
+    new webpack.WatchIgnorePlugin([
+      root('server'),
+      root('build'),
+      root('dist'),
+    ]),
+    new webpack.DefinePlugin({
+      'process.env.BROWSER': true,
+      'process.env.NODE_ENV': JSON.stringify('development'),
+    }),
+    new WebpackNotifier({
+      title: `JIA MING`,
+      alwaysNotify: true,
+      excludeWarnings: true,
     }),
     new HtmlWebpackPlugin({
-      filename: "dev.html",
-      template: "./template/dev.html",
-      title: siteTitle
-    })
+      filename: 'dev.html',
+      template: root('template/dev.html'),
+      title: siteTitle,
+    }),
   ],
-  devtool: "inline-source-map",
-  mode: "development",
-  devServer
-});
+  devtool: 'inline-source-map',
+  mode: 'development',
+  devServer,
+}

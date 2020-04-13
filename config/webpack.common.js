@@ -1,77 +1,85 @@
-const webpack = require("webpack");
-const path = require("path");
-const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { publicPath, port, distPath, host } = require("./projectConfig");
+const { resolve } = require('path')
+const HappyPack = require('happypack')
+const WebpackBar = require('webpackbar')
+const autoprefixer = require('autoprefixer')
 
-const { loader: exLoader } = MiniCssExtractPlugin;
+const root = (path) => resolve(__dirname, `../${path}`)
 
 module.exports = {
   entry: {
-    app: "./src/index.js"
+    main: './src/index.js',
   },
-  output: {
-    publicPath, // //
-    path: path.resolve(distPath)
-  },
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        use: [exLoader, "css-loader"],
-        include: /node_modules/
-      },
-      {
-        test: /\.less$/,
-        use: [exLoader, "css-loader", "less-loader"],
-        include: /node_modules/
-      },
-      {
-        test: /\.jsx?$/,
-        use: ["babel-loader"],
-        exclude: /node_modules/
-      },
-      {
-        test: /\.(png|svg|jpg|gif)$/,
-        use: ["file-loader"]
-      },
-      {
-        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        use: ["file-loader"]
-      },
-      {
-        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
-        use: [
-          {
-            loader: "file-loader"
-          }
-        ]
-      }
-    ]
-  },
+  moduleRules: [
+    {
+      test: /\.jsx?$/,
+      use: 'happypack/loader?id=jsx',
+      include: root('src'),
+    },
+    {
+      test: /\.jsx?$/,
+      include: root('node_modules'),
+      use: 'cache-loader',
+    },
+    {
+      test: /\.svg$/,
+      issuer: { test: /\.jsx?$/ },
+      use: [
+        { loader: 'cache-loader' },
+        { loader: '@svgr/webpack', options: { icon: true } },
+      ],
+    },
+    {
+      test: /\.(png|svg|jpg)(\?.+)?$/,
+      use: [
+        {
+          loader: 'url-loader',
+          options: {
+            limit: 100000,
+            fallback: 'responsive-loader',
+          },
+        },
+      ],
+      include: root('src/assets'),
+    },
+    {
+      test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+      use: [
+        {
+          loader: 'file-loader',
+        },
+      ],
+    },
+  ],
   resolve: {
-    extensions: [".js", ".jsx", ".css", ".less", ".json", ".ts"],
+    extensions: ['.js', '.jsx', '.css', '.less'],
+    symlinks: false,
+    modules: [root('src'), root('src/pages'), 'node_modules'],
     alias: {
-      src: path.resolve("./src"),
-      containers: path.resolve("./src/containers"),
-      components: path.resolve("./src/components"),
-      schemas: path.resolve("./src/schemas"),
-      utils: path.resolve("./src/utils")
-    }
+      src: root('src'),
+      assets: root('src/assets'),
+      containers: root('src/containers'),
+      components: root('src/components'),
+      schemas: root('src/schemas'),
+      utils: root('src/utils'),
+    },
   },
   // resolveLoader: { moduleExtensions: ["-loader"] },
   plugins: [
-    new FriendlyErrorsWebpackPlugin({
-      compilationSuccessInfo: {
-        messages: ["编译成功"],
-        notes: [`运行于http://${host}:${port}${publicPath}`]
-      }
+    new HappyPack({
+      id: 'jsx',
+      loaders: ['babel-loader?cacheDirectory=true'],
     }),
-    // 自定义
-    new webpack.DefinePlugin({
-      "process.env.IS_DEV": process.env.BUILD_ENV === "dev",
-      "process.env.IS_TEST": process.env.BUILD_ENV === "test",
-      "process.env.IS_PROD": process.env.BUILD_ENV === "prod"
-    })
-  ]
-};
+    new WebpackBar(),
+  ],
+  postCssOptions: {
+    ident: 'postcss',
+    plugins: () => [
+      require('postcss-flexbugs-fixes'),
+      autoprefixer({
+        browsers: ['>1%', 'last 4 versions', 'Firefox ESR', 'not ie < 9'],
+        flexbox: 'no-2009',
+      }),
+      require('postcss-remove-google-fonts'),
+    ],
+  },
+}

@@ -1,30 +1,30 @@
-// const path = require("path");
-const projectConfig = require("./projectConfig");
+const projectConfig = require('./projectConfig')
 
-const { publicPath, port, host } = projectConfig;
+const { publicPath, port, host } = projectConfig
 
 module.exports = {
-  // contentBase: [path.resolve("./dist")],
-  port,
   publicPath,
+  compress: true,
+  noInfo: false,
+  quiet: false,
+  hot: true,
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+  },
+  host,
+  port,
   historyApiFallback: {
     rewrites: [
       {
         from: new RegExp(`^${publicPath}`),
-        to: `${publicPath}/dev.html`
-      }
-    ]
+        to: `${publicPath}dev.html`,
+      },
+    ],
   },
-  // host: "0.0.0.0",
-  compress: true,
-  host,
-  hot: true,
   open: true,
-  openPage: `${publicPath.slice(1)}`,
+  openPage: '',
   inline: true,
-  noInfo: true,
-  quiet: true,
-  clientLogLevel: "none"
+  clientLogLevel: 'none',
   //   overlay: {
   //     warnings: true,
   //     errors: true
@@ -33,4 +33,4 @@ module.exports = {
   //   proxy: {
   //     "/api": "http://localhost:8080"
   //   }
-};
+}
