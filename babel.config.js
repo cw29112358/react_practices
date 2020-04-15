@@ -1,37 +1,37 @@
 module.exports = {
   presets: [
-    "@babel/react",
+    '@babel/react',
     [
-      "@babel/env",
+      '@babel/env',
       {
         modules: false,
         targets: {
-          browsers: ["ie >= 10"]
-        }
-      }
-    ]
+          browsers: ['ie >= 10'],
+        },
+      },
+    ],
   ],
   plugins: [
-    "@babel/transform-runtime",
+    '@babel/transform-runtime',
     [
-      "@babel/proposal-decorators",
+      '@babel/proposal-decorators',
       {
-        legacy: true
-      }
+        legacy: true,
+      },
     ],
     [
-      "@babel/proposal-class-properties",
+      '@babel/proposal-class-properties',
       {
-        loose: true
-      }
+        loose: true,
+      },
     ],
     [
-      "import",
+      'import',
       {
-        libraryName: "antd",
-        libraryDirectory: "es",
-        style: "css"
-      }
-    ]
-  ]
+        libraryName: 'antd',
+        libraryDirectory: 'es',
+        style: 'css',
+      },
+    ],
+  ],
 };

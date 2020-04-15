@@ -1,9 +1,9 @@
-const { resolve } = require('path')
-const HappyPack = require('happypack')
-const WebpackBar = require('webpackbar')
-const autoprefixer = require('autoprefixer')
+const { resolve } = require('path');
+const HappyPack = require('happypack');
+const WebpackBar = require('webpackbar');
+const autoprefixer = require('autoprefixer');
 
-const root = (path) => resolve(__dirname, `../${path}`)
+const root = (path) => resolve(__dirname, `../${path}`);
 
 module.exports = {
   entry: {
@@ -57,8 +57,8 @@ module.exports = {
     alias: {
       src: root('src'),
       assets: root('src/assets'),
-      containers: root('src/containers'),
       components: root('src/components'),
+      pages: root('src/pages'),
       schemas: root('src/schemas'),
       utils: root('src/utils'),
     },
@@ -82,4 +82,4 @@ module.exports = {
       require('postcss-remove-google-fonts'),
     ],
   },
-}
+};

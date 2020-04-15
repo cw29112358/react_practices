@@ -1,7 +1,9 @@
-import { createStore, applyMiddleware, combineReducers, compose } from "redux";
-import createSagaMiddleware from "redux-saga";
+import {
+  createStore, applyMiddleware, combineReducers, compose,
+} from 'redux';
+import createSagaMiddleware from 'redux-saga';
 
-import * as reducers from "../reducers";
+import * as reducers from '../reducers';
 
 const sagaMiddleware = createSagaMiddleware();
 

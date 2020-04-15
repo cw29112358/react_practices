@@ -1,12 +1,13 @@
-import { delay, put, takeLatest } from "redux-saga/effects";
+import { delay, put, takeLatest } from 'redux-saga/effects';
 
-import { increaseNumSuccess, decreaseNumSuccess } from "./constants";
+import { increaseNumSuccess, decreaseNumSuccess } from './constants';
 
 function* increaseNum(action) {
   try {
     yield delay(200);
     yield put({ type: increaseNumSuccess, num: action.payload });
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.log(error);
   }
 }
@@ -16,16 +17,17 @@ function* decreaseNum(action) {
     yield delay(200);
     yield put({ type: decreaseNumSuccess, num: action.payload });
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.log(error);
   }
 }
 
 function* increaseNumber() {
-  yield takeLatest("increaseNumber", increaseNum);
+  yield takeLatest('increaseNumber', increaseNum);
 }
 
 function* decreaseNumber() {
-  yield takeLatest("decreaseNumber", decreaseNum);
+  yield takeLatest('decreaseNumber', decreaseNum);
 }
 
 export { increaseNumber, decreaseNumber };

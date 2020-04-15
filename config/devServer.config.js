@@ -1,6 +1,6 @@
-const projectConfig = require('./projectConfig')
+const projectConfig = require('./projectConfig');
 
-const { publicPath, port, host } = projectConfig
+const { publicPath, port, host } = projectConfig;
 
 module.exports = {
   publicPath,
@@ -33,4 +33,4 @@ module.exports = {
   //   proxy: {
   //     "/api": "http://localhost:8080"
   //   }
-}
+};

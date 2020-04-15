@@ -1,101 +1,101 @@
-const colors = ["#5793f3", "#d14a61", "#675bba"];
+const colors = ['#5793f3', '#d14a61', '#675bba'];
 
 export const lineOption = {
   color: colors,
 
   tooltip: {
-    trigger: "axis",
+    trigger: 'axis',
     axisPointer: {
-      type: "cross"
-    }
+      type: 'cross',
+    },
   },
   grid: {
-    right: "20%"
+    right: '20%',
   },
   toolbox: {
     feature: {
       dataView: { show: true, readOnly: false },
       restore: { show: true },
-      saveAsImage: { show: true }
-    }
+      saveAsImage: { show: true },
+    },
   },
   legend: {
-    data: ["蒸发量", "降水量", "平均温度"]
+    data: ['蒸发量', '降水量', '平均温度'],
   },
   xAxis: [
     {
-      type: "category",
+      type: 'category',
       axisTick: {
-        alignWithLabel: true
+        alignWithLabel: true,
       },
       data: [
-        "1月",
-        "2月",
-        "3月",
-        "4月",
-        "5月",
-        "6月",
-        "7月",
-        "8月",
-        "9月",
-        "10月",
-        "11月",
-        "12月"
-      ]
-    }
+        '1月',
+        '2月',
+        '3月',
+        '4月',
+        '5月',
+        '6月',
+        '7月',
+        '8月',
+        '9月',
+        '10月',
+        '11月',
+        '12月',
+      ],
+    },
   ],
   yAxis: [
     {
-      type: "value",
-      name: "蒸发量",
+      type: 'value',
+      name: '蒸发量',
       min: 0,
       max: 250,
-      position: "right",
+      position: 'right',
       axisLine: {
         lineStyle: {
-          color: colors[0]
-        }
+          color: colors[0],
+        },
       },
       axisLabel: {
-        formatter: "{value} ml"
-      }
+        formatter: '{value} ml',
+      },
     },
     {
-      type: "value",
-      name: "降水量",
+      type: 'value',
+      name: '降水量',
       min: 0,
       max: 250,
-      position: "right",
+      position: 'right',
       offset: 80,
       axisLine: {
         lineStyle: {
-          color: colors[1]
-        }
+          color: colors[1],
+        },
       },
       axisLabel: {
-        formatter: "{value} ml"
-      }
+        formatter: '{value} ml',
+      },
     },
     {
-      type: "value",
-      name: "温度",
+      type: 'value',
+      name: '温度',
       min: 0,
       max: 25,
-      position: "left",
+      position: 'left',
       axisLine: {
         lineStyle: {
-          color: colors[2]
-        }
+          color: colors[2],
+        },
       },
       axisLabel: {
-        formatter: "{value} °C"
-      }
-    }
+        formatter: '{value} °C',
+      },
+    },
   ],
   series: [
     {
-      name: "蒸发量",
-      type: "bar",
+      name: '蒸发量',
+      type: 'bar',
       data: [
         2.0,
         4.9,
@@ -108,12 +108,12 @@ export const lineOption = {
         32.6,
         20.0,
         6.4,
-        3.3
-      ]
+        3.3,
+      ],
     },
     {
-      name: "降水量",
-      type: "bar",
+      name: '降水量',
+      type: 'bar',
       yAxisIndex: 1,
       data: [
         2.6,
@@ -127,14 +127,14 @@ export const lineOption = {
         48.7,
         18.8,
         6.0,
-        2.3
-      ]
+        2.3,
+      ],
     },
     {
-      name: "平均温度",
-      type: "line",
+      name: '平均温度',
+      type: 'line',
       yAxisIndex: 2,
-      data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
-    }
-  ]
+      data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2],
+    },
+  ],
 };

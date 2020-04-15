@@ -1,13 +1,13 @@
-const { resolve } = require('path')
-const webpack = require('webpack')
-const WebpackNotifier = require('webpack-notifier')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { resolve } = require('path');
+const webpack = require('webpack');
+const WebpackNotifier = require('webpack-notifier');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const baseConfig = require('./webpack.common')
-const devServer = require('./devServer.config')
-const { siteTitle } = require('./projectConfig')
+const baseConfig = require('./webpack.common');
+const devServer = require('./devServer.config');
+const { siteTitle } = require('./projectConfig');
 
-const root = (path) => resolve(__dirname, `../${path}`)
+const root = (path) => resolve(__dirname, `../${path}`);
 
 module.exports = {
   entry: baseConfig.entry,
@@ -86,7 +86,7 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify('development'),
     }),
     new WebpackNotifier({
-      title: `JIA MING`,
+      title: 'JIA MING',
       alwaysNotify: true,
       excludeWarnings: true,
     }),
@@ -99,4 +99,4 @@ module.exports = {
   devtool: 'inline-source-map',
   mode: 'development',
   devServer,
-}
+};

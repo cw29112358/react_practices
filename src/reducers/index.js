@@ -1,2 +1,2 @@
 // home page
-export { default as home } from "../containers/home/reducers";
+export { default as home } from '../pages/home/reducers';

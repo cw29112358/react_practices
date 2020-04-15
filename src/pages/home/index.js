@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import { Button, Spin } from "antd";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { Button, Spin } from 'antd';
+import { connect } from 'react-redux';
 
 import {
   increaseCountAction,
   decreaseCountAction,
   increaseNumberAction,
-  decreaseNumberAction
-} from "./actions";
-import styles from "./index.less";
+  decreaseNumberAction,
+} from './actions';
+import styles from './index.less';
 
 class Home extends Component {
   render() {
@@ -19,13 +19,14 @@ class Home extends Component {
       number,
       increaseNumber,
       decreaseNumber,
-      loading
+      loading,
     } = this.props;
     return (
       <div className={styles.home}>
         <div className={styles.home_page}>
           <div className={styles.home_title}>redux演示：</div>
-          计数器：{count}
+          计数器：
+          {count}
           <hr />
           <Button type="primary" onClick={increaseCount}>
             count + 1
@@ -39,7 +40,8 @@ class Home extends Component {
         <Spin spinning={loading}>
           <div className={styles.home_page}>
             <div className={styles.home_title}>redux-saga演示：</div>
-            计数器：{number}
+            计数器：
+            {number}
             <hr />
             <Button type="danger" onClick={() => increaseNumber(1)}>
               number + 1
@@ -58,14 +60,14 @@ class Home extends Component {
 const mapStateToProps = ({ home }) => ({
   count: home.count,
   number: home.number,
-  loading: home.loading
+  loading: home.loading,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   increaseCount: () => dispatch(increaseCountAction),
   decreaseCount: () => dispatch(decreaseCountAction),
-  increaseNumber: num => dispatch(increaseNumberAction(num)),
-  decreaseNumber: num => dispatch(decreaseNumberAction(num))
+  increaseNumber: (num) => dispatch(increaseNumberAction(num)),
+  decreaseNumber: (num) => dispatch(decreaseNumberAction(num)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

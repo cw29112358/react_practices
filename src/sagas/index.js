@@ -1,5 +1,5 @@
 // home
-import { increaseNumber, decreaseNumber } from "../containers/home/sagas";
-// import DemoSages from "../containers/demo/sagas";
+import { increaseNumber, decreaseNumber } from '../pages/home/sagas';
+// import DemoSages from "../pages/demo/sagas";
 
 export default [increaseNumber, decreaseNumber];

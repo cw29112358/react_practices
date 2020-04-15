@@ -1,13 +1,13 @@
-import Home from "../containers/home";
-import Demo from "../containers/demo";
+import Home from 'pages/home';
+import Demo from 'pages/demo';
 
 export const routes = [
   {
-    path: "/home",
-    component: Home
+    path: '/home',
+    component: Home,
   },
   {
-    path: "/demo",
-    component: Demo
-  }
+    path: '/demo',
+    component: Demo,
+  },
 ];

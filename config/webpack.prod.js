@@ -1,22 +1,21 @@
-const { resolve } = require('path')
-const webpack = require('webpack')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const SpeedMeasurePlugin = require('speed-measure-webpack-plugin')
-const CopyPlugin = require('copy-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin
-const ChunkRenamePlugin = require('webpack-chunk-rename-plugin')
-const HtmlPlugin = require('html-webpack-plugin')
+const { resolve } = require('path');
+const webpack = require('webpack');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const ChunkRenamePlugin = require('webpack-chunk-rename-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const baseConfig = require('./webpack.common')
+const baseConfig = require('./webpack.common');
 
-const root = (path) => resolve(__dirname, `../${path}`)
+const root = (path) => resolve(__dirname, `../${path}`);
 
-const smp = new SpeedMeasurePlugin()
+const smp = new SpeedMeasurePlugin();
 
-const { loader: exLoader } = MiniCssExtractPlugin
+const { loader: exLoader } = MiniCssExtractPlugin;
 
 module.exports = smp.wrap({
   mode: 'production',
@@ -126,7 +125,7 @@ module.exports = smp.wrap({
       'process.env.BROWSER': true,
       'process.env.NODE_ENV': JSON.stringify('production'),
     }),
-    new HtmlPlugin({
+    new HtmlWebpackPlugin({
       template: root('template/prod.html'),
       filename: 'index.html',
       title: 'JM',
@@ -140,4 +139,4 @@ module.exports = smp.wrap({
     }),
     new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
   ],
-})
+});
