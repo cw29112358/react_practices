@@ -1,19 +1,13 @@
 # webpack
 
-webpack
-
-webpack-cli
-
-loader
-
 ### package.json
 
 ```
 "scripts": {
-    "test": "cross-env BUILD_ENV=test NODE_ENV=production webpack --config config/webpack.test.js --progress",
-    "build": "cross-env BUILD_ENV=prod NODE_ENV=production webpack --config config/webpack.prod.js --progress",
-    "start": "cross-env BUILD_ENV=dev NODE_ENV=development webpack-dev-server --color --config config/webpack.dev.js --progress"
-  }
+    "test": "cross-env NODE_ENV=production webpack --config config/webpack.test.js --progress",
+    "build": "cross-env NODE_ENV=production webpack --config config/webpack.prod.js --progress",
+    "start": "cross-env NODE_ENV=development webpack-dev-server --config config/webpack.dev.js --progress"
+  },
 ```
 
 ### webpack config
@@ -24,49 +18,50 @@ config/webpack.dev.js
 
 config/webpack.prod.js
 
-config/webpack.build.js
-
-# react
-
-react+react-dom+react-router-dom+redux+react-redux+history+redux-saga
-
-# babel
+### babel
 
 ```
 module.exports = {
   presets: [
-    "@babel/react",
+    '@babel/react',
     [
-      "@babel/env",
+      '@babel/env',
       {
         modules: false,
         targets: {
-          browsers: ["ie >= 10"]
-        }
-      }
-    ]
+          browsers: ['ie >= 10'],
+        },
+      },
+    ],
   ],
-  <!-- 自定义插件 -->
   plugins: [
-    "@babel/transform-runtime",
+    '@babel/transform-runtime',
     [
-      "@babel/proposal-decorators",
+      '@babel/proposal-decorators',
       {
-        legacy: true
-      }
+        legacy: true,
+      },
     ],
     [
-      "@babel/proposal-class-properties",
+      '@babel/proposal-class-properties',
       {
-        loose: true
-      }
-    ]
-  ]
+        loose: true,
+      },
+    ],
+    [
+      'import',
+      {
+        libraryName: 'antd',
+        libraryDirectory: 'es',
+        style: 'css',
+      },
+    ],
+  ],
 };
 
 ```
 
-# CSS Modules
+### CSS Modules
 
 ```
 module.exports = {
@@ -74,87 +69,44 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: [exLoader, "css-loader"],
-        include: /node_modules/
-      },
-      {
-        test: [/\.css$/],
-        use: [
-          {
-            loader: exLoader,
-            options: {
-              hmr: process.env.NODE_ENV === "development"
-            }
-          },
-          {
-            loader: "css-loader",
-            options: {
-              modules: {
-                localIdentName: "[name]__[local]--[hash:base64:5]"
-              }
-            }
-          }
-        ],
-        exclude: /node_modules/
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.less$/,
-        use: [exLoader, "css-loader", "less-loader"],
-        include: /node_modules/
-      },
-      {
-        test: [/\.less$/],
+        include: root('src'),
         use: [
+          'style-loader',
           {
-            loader: exLoader,
-            options: {
-              hmr: process.env.NODE_ENV === "development"
-            }
-          },
-          {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               modules: {
-                localIdentName: "[name]__[local]--[hash:base64:5]"
-              }
-            }
+                localIdentName: '[path][name]__[local]',
+              },
+              importLoaders: 1,
+            },
           },
-          "less-loader"
+          {
+            loader: 'less-loader',
+          },
         ],
-        exclude: /node_modules/
-      }
-    ]
+      },
+    ],
   },
-  plugins: [
-    new MiniCssExtractPlugin({
-      filename: "assets/style/[name].[contenthash].css",
-      chunkFilename: "assets/style/[name].[contenthash].css",
-      ignoreOrder: false
-    })
-  ]
 };
 ```
 
-# antd
-
-### usage
-
-npm install antd --save
-
-or
-
-yarn add antd
+### antd
 
 ```
-// .babelrc or babel-loader option
-
 {
   "plugins": [
     ["import", {
       "libraryName": "antd",
       "libraryDirectory": "es",
-      "style": "css" // `style: true` 会加载 less 文件
+      "style": "css"
     }]
   ]
 }
 ```
+
+### 插件介绍

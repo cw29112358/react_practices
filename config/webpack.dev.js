@@ -2,18 +2,18 @@ const { resolve } = require('path');
 const webpack = require('webpack');
 const WebpackNotifier = require('webpack-notifier');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
-const baseConfig = require('./webpack.common');
-const devServer = require('./devServer.config');
-const { siteTitle } = require('./projectConfig');
+const baseConfig = require('./webpack.common.js');
 
 const root = (path) => resolve(__dirname, `../${path}`);
 
-module.exports = {
-  entry: baseConfig.entry,
+const config = {
+  mode: 'development',
+  entry: {
+    main: './src/index.js',
+  },
   output: {
     filename: '[name].js',
-    path: root('dist/'),
+    path: root('build/'),
     publicPath: '/',
     pathinfo: false,
   },
@@ -21,11 +21,7 @@ module.exports = {
     rules: [
       ...baseConfig.moduleRules,
       {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: [/\.less$/],
+        test: /\.less$/,
         include: root('src'),
         use: [
           'style-loader',
@@ -35,15 +31,32 @@ module.exports = {
               modules: {
                 localIdentName: '[path][name]__[local]',
               },
+              importLoaders: 1,
             },
           },
-          'less-loader',
+          {
+            loader: 'less-loader',
+          },
         ],
       },
       {
-        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(ttf|otf|eot|woff2?)(\?.+)?$/,
         include: root('src/assets'),
-        use: ['file-loader'],
+        use: {
+          loader: 'file-loader',
+        },
       },
     ],
   },
@@ -81,22 +94,41 @@ module.exports = {
       root('build'),
       root('dist'),
     ]),
+    new WebpackNotifier({
+      title: 'JM',
+      alwaysNotify: true,
+      excludeWarnings: true,
+    }),
     new webpack.DefinePlugin({
       'process.env.BROWSER': true,
       'process.env.NODE_ENV': JSON.stringify('development'),
     }),
-    new WebpackNotifier({
-      title: 'JIA MING',
-      alwaysNotify: true,
-      excludeWarnings: true,
-    }),
     new HtmlWebpackPlugin({
       filename: 'dev.html',
       template: root('template/dev.html'),
-      title: siteTitle,
+      title: 'JM',
     }),
   ],
-  devtool: 'inline-source-map',
-  mode: 'development',
-  devServer,
+  devServer: {
+    publicPath: '/',
+    compress: true,
+    noInfo: false,
+    quiet: false,
+    hot: true,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
+    host: 'localhost',
+    port: 8001,
+    historyApiFallback: {
+      rewrites: [
+        {
+          from: '/',
+          to: '/dev.html',
+        },
+      ],
+    },
+  },
 };
+
+module.exports = config;

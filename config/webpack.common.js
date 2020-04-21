@@ -1,7 +1,7 @@
 const { resolve } = require('path');
+const autoprefixer = require('autoprefixer');
 const HappyPack = require('happypack');
 const WebpackBar = require('webpackbar');
-const autoprefixer = require('autoprefixer');
 
 const root = (path) => resolve(__dirname, `../${path}`);
 
@@ -12,8 +12,8 @@ module.exports = {
   moduleRules: [
     {
       test: /\.jsx?$/,
-      use: 'happypack/loader?id=jsx',
       include: root('src'),
+      use: 'happypack/loader?id=jsx',
     },
     {
       test: /\.jsx?$/,
@@ -29,45 +29,28 @@ module.exports = {
       ],
     },
     {
-      test: /\.(png|svg|jpg)(\?.+)?$/,
-      use: [
-        {
-          loader: 'url-loader',
-          options: {
-            limit: 100000,
-            fallback: 'responsive-loader',
-          },
-        },
-      ],
+      test: /\.(jpg|png|svg)(\?.+)?$/,
       include: root('src/assets'),
-    },
-    {
-      test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
-      use: [
-        {
-          loader: 'file-loader',
-        },
-      ],
+      use: 'url-loader?limit=100000',
     },
   ],
   resolve: {
-    extensions: ['.js', '.jsx', '.css', '.less'],
+    extensions: ['.js', '.jsx', '.less', '.css'],
     symlinks: false,
     modules: [root('src'), root('src/pages'), 'node_modules'],
     alias: {
       src: root('src'),
       assets: root('src/assets'),
-      components: root('src/components'),
       pages: root('src/pages'),
-      schemas: root('src/schemas'),
+      schema: root('src/schema'),
+      components: root('src/components'),
       utils: root('src/utils'),
     },
   },
-  // resolveLoader: { moduleExtensions: ["-loader"] },
   plugins: [
     new HappyPack({
       id: 'jsx',
-      loaders: ['babel-loader?cacheDirectory=true'],
+      loaders: ['babel-loader?cacheDirectory'],
     }),
     new WebpackBar(),
   ],

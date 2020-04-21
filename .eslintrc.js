@@ -43,5 +43,8 @@ module.exports = {
     "func-names": 0,
     "no-continue": 0,
     "linebreak-style": 0,
+    'react/react-in-jsx-scope': 0,
+    "consistent-return": 0,
+    "no-param-reassign": 0,
   },
 };

@@ -1,5 +1,6 @@
 import Home from 'pages/home';
 import Demo from 'pages/demo';
+import Md from 'pages/Md';
 
 export const routes = [
   {
@@ -9,5 +10,9 @@ export const routes = [
   {
     path: '/demo',
     component: Demo,
+  },
+  {
+    path: '/md',
+    component: Md,
   },
 ];

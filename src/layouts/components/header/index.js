@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Layout } from 'antd';
-import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
+import { Layout, Icon } from 'antd';
 
 import styles from './index.less';
 
@@ -11,13 +10,11 @@ export default class HeaderComponent extends PureComponent {
     const { collapsed, toggle } = this.props;
     return (
       <Header className={styles.header}>
-        {React.createElement(
-          collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-          {
-            className: styles.trigger,
-            onClick: toggle,
-          },
-        )}
+        <Icon
+          className={styles.trigger}
+          type={collapsed ? 'menu-unfold' : 'menu-fold'}
+          onClick={toggle}
+        />
       </Header>
     );
   }

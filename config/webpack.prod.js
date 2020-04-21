@@ -1,21 +1,19 @@
 const { resolve } = require('path');
 const webpack = require('webpack');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const ChunkRenamePlugin = require('webpack-chunk-rename-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const baseConfig = require('./webpack.common');
+const ChunkRenamePlugin = require('webpack-chunk-rename-plugin');
 
 const root = (path) => resolve(__dirname, `../${path}`);
 
-const smp = new SpeedMeasurePlugin();
+const baseConfig = require('./webpack.common.js');
 
-const { loader: exLoader } = MiniCssExtractPlugin;
+const smp = new SpeedMeasurePlugin();
 
 module.exports = smp.wrap({
   mode: 'production',
@@ -23,16 +21,38 @@ module.exports = smp.wrap({
   output: {
     filename: '[name].js',
     path: root('dist/'),
-    publicPath: '',
+    // publicPath: '/dist/',
     chunkFilename: '[name].[chunkhash].js',
   },
   module: {
     rules: [
       ...baseConfig.moduleRules,
       {
+        test: /\.less$/,
+        include: root('src'),
+        loader: [
+          MiniCssExtractPlugin.loader,
+          { loader: 'cache-loader' },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[folder]__[local]--[hash:base64:5]',
+              },
+              importLoaders: 1,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: baseConfig.postCssOptions,
+          },
+          { loader: 'less-loader' },
+        ],
+      },
+      {
         test: /\.css$/,
         loader: [
-          exLoader,
+          MiniCssExtractPlugin.loader,
           { loader: 'cache-loader' },
           {
             loader: 'css-loader',
@@ -40,27 +60,6 @@ module.exports = smp.wrap({
               importLoaders: 2,
             },
           },
-        ],
-      },
-      {
-        test: [/\.less$/],
-        include: root('src'),
-        loader: [
-          exLoader,
-          { loader: 'cache-loader' },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: {
-                localIdentName: '[path][name]__[local]',
-              },
-            },
-          },
-          {
-            loader: 'postcss-loader',
-            options: baseConfig.postCssOptions,
-          },
-          'less-loader',
         ],
       },
       {
@@ -104,7 +103,6 @@ module.exports = smp.wrap({
   resolve: baseConfig.resolve,
   plugins: [
     ...baseConfig.plugins,
-    new CleanWebpackPlugin(),
     new ChunkRenamePlugin({
       vendor: '[name].js',
     }),
@@ -125,6 +123,7 @@ module.exports = smp.wrap({
       'process.env.BROWSER': true,
       'process.env.NODE_ENV': JSON.stringify('production'),
     }),
+    new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
     new HtmlWebpackPlugin({
       template: root('template/prod.html'),
       filename: 'index.html',
@@ -137,6 +136,5 @@ module.exports = smp.wrap({
         removeAttributeQuotes: true, // 移除属性的引号
       },
     }),
-    new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
   ],
 });

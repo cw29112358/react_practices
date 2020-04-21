@@ -1,4 +1,4 @@
 rm -rf node_modules
-npm cache verify
-npm i
-npm start
+npm cache clean -f
+yarn
+yarn start

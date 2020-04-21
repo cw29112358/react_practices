@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Layout, Menu } from 'antd';
-import { UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import { Layout, Menu, Icon } from 'antd';
 
 import { routes } from 'schemas/routes';
 import { history } from 'utils/history';
@@ -29,12 +28,16 @@ export default class SiderComponent extends PureComponent {
           ]}
         >
           <Item key="/home">
-            <UserOutlined />
+            <Icon type="home" />
             <span>首页</span>
           </Item>
           <Item key="/demo">
-            <VideoCameraOutlined />
+            <Icon type="user" />
             <span>示例</span>
+          </Item>
+          <Item key="/md">
+            <Icon type="user" />
+            <span>md</span>
           </Item>
         </Menu>
       </Sider>
