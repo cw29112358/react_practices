@@ -25,6 +25,7 @@ module.exports = {
         loose: true,
       },
     ],
+    'recharts',
     [
       'import',
       {

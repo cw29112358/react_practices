@@ -1,6 +1,7 @@
 import Home from 'pages/home';
 import Demo from 'pages/demo';
 import Md from 'pages/Md';
+import Charts from 'pages/charts';
 
 export const routes = [
   {
@@ -14,5 +15,9 @@ export const routes = [
   {
     path: '/md',
     component: Md,
+  },
+  {
+    path: '/charts',
+    component: Charts,
   },
 ];

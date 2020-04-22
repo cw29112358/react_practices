@@ -4,12 +4,12 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { routes } from 'schemas/routes';
 
 function RoutesComponent() {
-  const render = () => <Redirect to="home" />;
+  const render = () => <Redirect to="/home" />;
   return (
     <Switch>
       <Route exact path="/" render={render} />
       {routes.map((item) => (
-        <Route key={item.path} path={item.path} component={item.component} />
+        <Route exact key={item.path} path={item.path} component={item.component} />
       ))}
     </Switch>
   );

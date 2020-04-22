@@ -39,6 +39,10 @@ export default class SiderComponent extends PureComponent {
             <Icon type="user" />
             <span>md</span>
           </Item>
+          <Item key="/charts">
+            <Icon type="user" />
+            <span>charts</span>
+          </Item>
         </Menu>
       </Sider>
     );
