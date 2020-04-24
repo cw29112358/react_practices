@@ -27,22 +27,12 @@ export default class SiderComponent extends PureComponent {
               : window.location.hash.slice(1),
           ]}
         >
-          <Item key="/home">
-            <Icon type="home" />
-            <span>首页</span>
-          </Item>
-          <Item key="/demo">
-            <Icon type="user" />
-            <span>示例</span>
-          </Item>
-          <Item key="/md">
-            <Icon type="user" />
-            <span>md</span>
-          </Item>
-          <Item key="/charts">
-            <Icon type="user" />
-            <span>charts</span>
-          </Item>
+          {routes.map((route) => (
+            <Item key={route.path}>
+              <Icon type={route.icon} />
+              <span>{route.title}</span>
+            </Item>
+          ))}
         </Menu>
       </Sider>
     );

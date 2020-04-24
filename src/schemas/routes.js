@@ -1,23 +1,24 @@
 import Home from 'pages/home';
 import Demo from 'pages/demo';
 import Md from 'pages/Md';
-import Charts from 'pages/charts';
 
 export const routes = [
   {
     path: '/home',
     component: Home,
+    icon: 'home',
+    title: '首页',
   },
   {
     path: '/demo',
     component: Demo,
+    icon: 'home',
+    title: '示例',
   },
   {
     path: '/md',
     component: Md,
-  },
-  {
-    path: '/charts',
-    component: Charts,
+    icon: 'home',
+    title: '练习',
   },
 ];
