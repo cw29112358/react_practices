@@ -8,9 +8,7 @@ const root = (path) => resolve(__dirname, `../${path}`);
 
 const config = {
   mode: 'development',
-  entry: {
-    main: './src/index.js',
-  },
+  entry: baseConfig.entry,
   output: {
     filename: '[name].js',
     path: root('build/'),

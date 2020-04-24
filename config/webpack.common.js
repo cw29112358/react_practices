@@ -7,7 +7,7 @@ const root = (path) => resolve(__dirname, `../${path}`);
 
 module.exports = {
   entry: {
-    main: './src/index.js',
+    main: './src/index.jsx',
   },
   moduleRules: [
     {
