@@ -1,16 +1,38 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Button, Spin } from 'antd';
+import { connect } from 'react-redux';
 
-export default class Md extends React.Component {
+import { getDemoAction } from './actions';
+import styles from './index.less';
+
+class Md extends React.Component {
+  getDemoDate = () => {
+    const { getDemo } = this.props;
+    getDemo();
+  }
+
   render() {
+    const { demo, loading } = this.props;
     return (
-      <div style={{
-        display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh',
-      }}
-      >
-        <Button type="primary">数组去重</Button>
-        <Button type="primary">节流事件</Button>
-      </div>
+      <Spin spinning={loading}>
+        <div className={styles.demo}>
+          {demo.map((item) => (
+            <div key={item.key}>{item.name}</div>
+          ))}
+          <Button type="primary" onClick={this.getDemoDate}>请求列表</Button>
+        </div>
+      </Spin>
     );
   }
 }
+
+const mapStateToProps = ({ md }) => ({
+  demo: md.demo,
+  loading: md.loading,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getDemo: () => dispatch(getDemoAction()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Md);

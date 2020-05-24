@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { notification, Icon } from 'antd';
-import { router } from 'umi';
+import { history } from 'utils/history';
 
 const request = axios.create({
   baseURL: '/',
@@ -32,7 +32,7 @@ request.interceptors.response.use(
       });
 
       localStorage.removeItem('Authorization');
-      router.replace('/login');
+      history.replace('/login');
       return;
     }
     return data && data.data;

@@ -1,5 +1,11 @@
 // home
-import { increaseNumber, decreaseNumber } from '../pages/home/sagas';
-// import DemoSages from "../pages/demo/sagas";
+import { increaseNumber, decreaseNumber } from 'pages/home/sagas';
 
-export default [increaseNumber, decreaseNumber];
+// md
+import { getListLatest } from 'pages/Md/sagas';
+
+export default [
+  increaseNumber,
+  decreaseNumber,
+  getListLatest,
+];
